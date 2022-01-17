@@ -140,8 +140,9 @@ class MazeAgent(BaseAgent):
 
 class Q_learning_agent(BaseAgent):
 
-    def __init__(self,n):
+    def __init__(self,n,env_obj):
         """Declare agent variables."""
+        self._env_obj = env_obj
 
         self.n=n
     def agent_init(self):
@@ -158,7 +159,7 @@ class Q_learning_agent(BaseAgent):
         self.actions=["left","right","up","down"]
         self.coords=[(-1,0),(1,0),(0,-1),(0,1)]
         self.returns=dict(zip(self.actions,self.coords))
-        L=list(itertools.product(range(9),range(6),self.actions))
+        L=list(itertools.product(range(self._env_obj._maze_w+1),range(self._env_obj._maze_h+1),self.actions))
         self.Q=dict(zip(L,len(L)*[0]))
         self.M={}
         self.visit={}

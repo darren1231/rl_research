@@ -14,8 +14,8 @@ def run(n):
 
     surface=create_window()
     maxEpisodes=200
-    environment=Environment()
-    agent=Q_learning_agent(n)
+    environment=Environment(6,6)
+    agent=Q_learning_agent(n,environment)
     
     rlglue=RLGlue(environment,agent,surface)
     rlglue.rl_init()

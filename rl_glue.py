@@ -20,7 +20,8 @@ class RLGlue:
     def __init__(self, env_obj, agent_obj,surface):
         self._environment = env_obj
         self._agent = agent_obj
-
+        self.maze_h = self._environment._maze_h
+        self.maze_w = self._environment._maze_w
         # useful statistics
         self._total_reward = None
         self._num_steps = None  # number of steps in entire experiment
@@ -40,9 +41,9 @@ class RLGlue:
         self.wall_color=pygame.Color('gray')
         self.w=60
         self.margin=1
-        self.maze=[[0]*6 for n in range(9)]
+        self.maze=[[0]*(self.maze_h+1) for n in range(self.maze_w+1)]
         self.start = (0,0)
-        self.goal = (8,5)
+        self.goal = (self.maze_w,self.maze_h)
         # self.start=(np.random.randint(0,9),np.random.randint(0,6))
         # self.goal=(np.random.randint(0,9),np.random.randint(0,6))
         color_tags=[hex(0xffffff),hex(0xedffed),hex(0xdbffdb),hex(0xc9ffc9),hex(0xb7ffb7),hex(0xa5ffa5),hex(0x93ff93),hex(0x81ff81),hex(0x6fff6f),hex(0x5dff5d)]
@@ -65,8 +66,8 @@ class RLGlue:
     def drawGrid(self):
 
         self.surface.fill(self.bg_color)
-        for row in range(9):
-            for col in range(6):
+        for row in range(self._environment._maze_w+1):
+            for col in range(self._environment._maze_h+1):
                 grid=[(self.margin+self.w)*row+self.margin,(self.margin+self.w)*col+self.margin,self.w,self.w]
                 if self.maze[row][col] == 1:
                     pygame.draw.rect(self.surface,self.wall_color,grid)
@@ -77,8 +78,8 @@ class RLGlue:
                     pygame.draw.rect(self.surface,pygame.Color(self.color[value]),grid)
     
     def drawActionValue(self):
-        for row in range(9):
-            for col in range(6):
+        for row in range(self.maze_w+1):
+            for col in range(self.maze_h+1):
                 start_pos = [(self.margin+self.w)*row+self.margin,(self.margin+self.w)*col+self.margin]
                 end_pos =  [(self.margin+self.w)*(row+1)+self.margin,(self.margin+self.w)*(col+1)+self.margin]
                 pygame.draw.line(self.surface, pygame.Color('red'), start_pos, end_pos)
@@ -94,8 +95,8 @@ class RLGlue:
         # start = myfont.render(text, False, (0, 0, 0))
         # self.surface.blit(start,(0,0))
 
-        for row in range(9):
-            for col in range(6):
+        for row in range(self.maze_w+1):
+            for col in range(self.maze_h+1):
                 x= self.w*row
                 y = self.w*col
 

@@ -9,8 +9,10 @@ import numpy as np
 
 class Environment(BaseEnvironment):
 
-    def __init__(self):
+    def __init__(self,maze_w,maze_h):
         """Declare environment variables."""
+        self._maze_h = maze_h
+        self._maze_w = maze_w
 
     def env_init(self,maze):
         """
@@ -44,10 +46,10 @@ class Environment(BaseEnvironment):
         testState=tuple(map(sum,zip(self.state,action)))
         x,y=testState
 
-        if x<0 or x>8 or y<0 or y>5:
+        if x<0 or x>self._maze_w or y<0 or y>self._maze_h:
             return -10,self.state,True 
 
-        if  testState not in self.wall and 0<=x<=8 and 0<=y<=5:
+        if  testState not in self.wall and 0<=x<=self._maze_w and 0<=y<=self._maze_h:
 
             self.state = testState
 
