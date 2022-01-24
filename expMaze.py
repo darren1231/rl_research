@@ -5,7 +5,7 @@
 """
 from rl_glue import RLGlue
 from envMaze import Environment
-from agentMaze import MazeAgent,Q_learning_agent
+from agentMaze import Q_learning_agent
 import pygame
 import numpy as np
 import sys
@@ -35,7 +35,7 @@ def create_window(maze_w,maze_h):
 
     return surface
 
-run(10,5,5)
+run(5,5,5)
 # run(int(sys.argv[1]))
 
 
