@@ -67,8 +67,8 @@ class Q_learning_agent(BaseAgent):
         self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,maxAction)]-self.Q[(x,y,self.action)])
 
 
-        # if self.n != 0:
-        #     self._planning(self.state,state,reward)
+        if self.n != 0:
+            self._planning(self.state,state,reward)
 
         self.action,coord=self._chooseAction(state)
         self.state=state

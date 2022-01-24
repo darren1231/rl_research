@@ -17,7 +17,7 @@ class RLGlue:
         agent_obj: an object that implements BaseAgent
     """
 
-    def __init__(self, env_obj, agent_obj,surface):
+    def __init__(self, env_obj, agent_obj,surface,width):
         self._environment = env_obj
         self._agent = agent_obj
         self.maze_h = self._environment._maze_h
@@ -39,7 +39,7 @@ class RLGlue:
         self.continue_game = True
         self.normal_color=pygame.Color('white')
         self.wall_color=pygame.Color('gray')
-        self.w=100
+        self.w=width
         self.margin=1
         self.maze=[[0]*(self.maze_h+1) for n in range(self.maze_w+1)]
         self.start = (0,0)
@@ -74,8 +74,10 @@ class RLGlue:
                     
                 else:
                     value=(self._agent.calValue((row,col))*100)//10
-                    if value<0: value=0
+
+                    if value<0 or value>9: value=0#debug                    
                     pygame.draw.rect(self.surface,pygame.Color(self.color[value]),grid)
+                 
     
     def drawActionValue(self):
         for row in range(self.maze_w+1):
