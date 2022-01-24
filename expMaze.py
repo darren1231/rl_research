@@ -35,7 +35,7 @@ def create_window(maze_w,maze_h):
 
     return surface
 
-run(10,8,8)
+run(10,5,5)
 # run(int(sys.argv[1]))
 
 

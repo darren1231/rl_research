@@ -43,7 +43,7 @@ class RLGlue:
         self.margin=1
         self.maze=[[0]*(self.maze_h+1) for n in range(self.maze_w+1)]
         self.start = (0,0)
-        self.goal = (self.maze_w,self.maze_h)
+        self.goal = (self.maze_w-1,self.maze_h-1)
         # self.start=(np.random.randint(0,9),np.random.randint(0,6))
         # self.goal=(np.random.randint(0,9),np.random.randint(0,6))
         color_tags=[hex(0xffffff),hex(0xedffed),hex(0xdbffdb),hex(0xc9ffc9),hex(0xb7ffb7),hex(0xa5ffa5),hex(0x93ff93),hex(0x81ff81),hex(0x6fff6f),hex(0x5dff5d)]

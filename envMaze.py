@@ -13,6 +13,7 @@ class Environment(BaseEnvironment):
         """Declare environment variables."""
         self._maze_h = maze_h
         self._maze_w = maze_w
+        self.goal = (self._maze_w-1,self._maze_h-1)
 
     def env_init(self,maze):
         """
@@ -43,22 +44,27 @@ class Environment(BaseEnvironment):
         state may help handle any rogue agents.
         """
         #calculate next state based on the action taken
+        # origin_x,origin_y = self.state
         testState=tuple(map(sum,zip(self.state,action)))
         x,y=testState
+        
 
-        if x<0 or x>self._maze_w or y<0 or y>self._maze_h:
+        #hit wall
+        if x<0 or x>=self._maze_w or y<0 or y>=self._maze_h:
             return -10,self.state,True 
-
-        if  testState not in self.wall and 0<=x<=self._maze_w and 0<=y<=self._maze_h:
-
-            self.state = testState
-
-            if self.state == self.terminal:
-                return 1,self.state,True
+        
+        #hit goal
+        elif testState==self.goal:
+            return 1,self.state,True
+        
+        #normal
+        else:
+            self.state =testState
+            return 0,self.state,False
 
         
 
-        return 0,self.state,False
+        
 
     def env_message(self, in_message):
         """
