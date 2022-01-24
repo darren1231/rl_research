@@ -11,6 +11,9 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 
+class Param:
+    COMBINE_Q = True
+
 def run(n,maze_h,maze_w):
 
     width=100
@@ -20,7 +23,7 @@ def run(n,maze_h,maze_w):
     agent=Q_learning_agent(n,environment)
     
     
-    rlglue=RLGlue(environment,agent,surface,width)
+    rlglue=RLGlue(environment,agent,surface,width,time_sleep=1)
     rlglue.rl_init()
     np.random.seed(0)
 
@@ -31,7 +34,7 @@ def run(n,maze_h,maze_w):
         reward_list.append(rlglue.num_ep_steps())
 
     plt.plot(reward_list)
-    plt.savefig('n_{}_{}_{}.png'.format(n,maze_h,maze_w))
+    plt.savefig('combineq_n_{}_{}_{}.png'.format(n,maze_h,maze_w))
     # plt.show()
 
 def create_window(maze_w,maze_h,width):
@@ -44,8 +47,13 @@ def create_window(maze_w,maze_h,width):
     pygame.display.set_caption(title)
 
     return surface
-# for i in [10,20]:
-run(0,8,8)
+
+
+
+
+# for i in range(11,20):
+#   run(0,i,i)
+run(0,6,6)
 # run(int(sys.argv[1]))
 
 

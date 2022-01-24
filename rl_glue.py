@@ -6,6 +6,7 @@ from abc import ABCMeta, abstractmethod
 from tracemalloc import start
 import pygame
 import numpy as np
+import time
 
 class RLGlue:
     """
@@ -17,7 +18,7 @@ class RLGlue:
         agent_obj: an object that implements BaseAgent
     """
 
-    def __init__(self, env_obj, agent_obj,surface,width):
+    def __init__(self, env_obj, agent_obj,surface,width,time_sleep):
         self._environment = env_obj
         self._agent = agent_obj
         self.maze_h = self._environment._maze_h
@@ -48,6 +49,7 @@ class RLGlue:
         # self.goal=(np.random.randint(0,9),np.random.randint(0,6))
         color_tags=[hex(0xffffff),hex(0xedffed),hex(0xdbffdb),hex(0xc9ffc9),hex(0xb7ffb7),hex(0xa5ffa5),hex(0x93ff93),hex(0x81ff81),hex(0x6fff6f),hex(0x5dff5d)]
         self.color=dict(zip(list(range(10)),color_tags))
+        self.time_sleep = time_sleep
 
     def handle_event(self):
         event=pygame.event.poll()
@@ -279,6 +281,8 @@ class RLGlue:
             self.showChar()
             _, state, _, terminal = self.rl_step()
             self.drawBlackBox(state)
+
+            time.sleep(self.time_sleep)
             pygame.display.update()
 
             
