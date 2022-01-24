@@ -51,7 +51,7 @@ class Environment(BaseEnvironment):
 
         #hit wall
         if x<0 or x>=self._maze_w or y<0 or y>=self._maze_h:
-            return -10,self.state,True 
+            return -10,self.state,False 
         
         #hit goal
         elif testState==self.goal:
