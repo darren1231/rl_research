@@ -105,16 +105,20 @@ class RLGlue:
                 y = self.w*col
 
 
+                # up_normal_q = np.format_float_scientific(self._agent.Q[row,col,action], precision = 1, exp_digits=3)
                 coordinate_dict = {"up":[0.5,0.1],"down":[0.5,0.75],"left":[0.25,0.5],"right":[0.75,0.5]}
                 for action in ["up","down","left","right"]:
-                    text = str(round(self._agent.Q[row,col,action],2))
+                    # text = str(round(self._agent.Q[row,col,action],2))
+                    text = "{:0.1e}".format(self._agent.Q[row,col,action])
+                    # text = str(up_normal_q)
                     render = myfont.render(text, False, (0, 0, 0))
                     coordinate = x + coordinate_dict[action][0]*self.w, y+coordinate_dict[action][1]*self.w
                     self.surface.blit(render,coordinate)
                 
                 coordinate_dict = {"up":[0.5,0.2],"down":[0.5,0.85],"left":[0.25,0.6],"right":[0.75,0.6]}
                 for action in ["up","down","left","right"]:
-                    text = str(round(self._agent.Q_p[row,col,action],2))
+                    text = "{:0.1e}".format(self._agent.Q_p[row,col,action])
+                    # text = str(round(self._agent.Q_p[row,col,action],2))
                     render = myfont.render(text, False, (0, 0, 0))
                     coordinate = x + coordinate_dict[action][0]*self.w, y+coordinate_dict[action][1]*self.w
                     self.surface.blit(render,coordinate)
