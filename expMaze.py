@@ -28,7 +28,7 @@ def run(n,maze_h,maze_w):
 def create_window(maze_w,maze_h):
 
     title = "Dyna Maze"
-    size = (maze_w*60,maze_h*60)
+    size = (maze_w*100,maze_h*100)
     pygame.init()
     surface = pygame.display.set_mode(size,0,0)
     pygame.display.set_caption(title)

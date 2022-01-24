@@ -39,7 +39,7 @@ class RLGlue:
         self.continue_game = True
         self.normal_color=pygame.Color('white')
         self.wall_color=pygame.Color('gray')
-        self.w=60
+        self.w=100
         self.margin=1
         self.maze=[[0]*(self.maze_h+1) for n in range(self.maze_w+1)]
         self.start = (0,0)
@@ -100,25 +100,40 @@ class RLGlue:
                 x= self.w*row
                 y = self.w*col
 
-                up_text = str(round(self._agent.Q[row,col,"up"],2))
-                down_text = str(round(self._agent.Q[row,col,"down"],2))
-                left_text = str(round(self._agent.Q[row,col,"left"],2))
-                right_text = str(round(self._agent.Q[row,col,"right"],2))
 
-                up_render = myfont.render(up_text, False, (0, 0, 0))
-                down_render = myfont.render(down_text, False, (0, 0, 0))
-                left_render = myfont.render(left_text, False, (0, 0, 0))
-                right_render = myfont.render(right_text, False, (0, 0, 0))
-
-                uptext_coordinate = x + 0.5*self.w, y+0.1*self.w
-                downtext_coordinate = x + 0.5*self.w, y+0.75*self.w
-                lefttext_coordinate = x + 0.25*self.w, y+0.5*self.w
-                righttext_coordinate = x + 0.75*self.w, y+0.5*self.w
+                coordinate_dict = {"up":[0.5,0.1],"down":[0.5,0.75],"left":[0.25,0.5],"right":[0.75,0.5]}
+                for action in ["up","down","left","right"]:
+                    text = str(round(self._agent.Q[row,col,action],2))
+                    render = myfont.render(text, False, (0, 0, 0))
+                    coordinate = x + coordinate_dict[action][0]*self.w, y+coordinate_dict[action][1]*self.w
+                    self.surface.blit(render,coordinate)
                 
-                self.surface.blit(up_render,uptext_coordinate)
-                self.surface.blit(down_render,downtext_coordinate)
-                self.surface.blit(left_render,lefttext_coordinate)
-                self.surface.blit(right_render,righttext_coordinate)
+                coordinate_dict = {"up":[0.5,0.2],"down":[0.5,0.85],"left":[0.25,0.6],"right":[0.75,0.6]}
+                for action in ["up","down","left","right"]:
+                    text = str(round(self._agent.Q[row,col,action],2))
+                    render = myfont.render(text, False, (0, 0, 0))
+                    coordinate = x + coordinate_dict[action][0]*self.w, y+coordinate_dict[action][1]*self.w
+                    self.surface.blit(render,coordinate)
+
+                # up_text = str(round(self._agent.Q[row,col,"up"],2))
+                # down_text = str(round(self._agent.Q[row,col,"down"],2))
+                # left_text = str(round(self._agent.Q[row,col,"left"],2))
+                # right_text = str(round(self._agent.Q[row,col,"right"],2))
+
+                # up_render = myfont.render(up_text, False, (0, 0, 0))
+                # down_render = myfont.render(down_text, False, (0, 0, 0))
+                # left_render = myfont.render(left_text, False, (0, 0, 0))
+                # right_render = myfont.render(right_text, False, (0, 0, 0))
+
+                # uptext_coordinate = x + 0.5*self.w, y+0.1*self.w
+                # downtext_coordinate = x + 0.5*self.w, y+0.75*self.w
+                # lefttext_coordinate = x + 0.25*self.w, y+0.5*self.w
+                # righttext_coordinate = x + 0.75*self.w, y+0.5*self.w
+                
+                # self.surface.blit(up_render,uptext_coordinate)
+                # self.surface.blit(down_render,downtext_coordinate)
+                # self.surface.blit(left_render,lefttext_coordinate)
+                # self.surface.blit(right_render,righttext_coordinate)
 
                 
 
