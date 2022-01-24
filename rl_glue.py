@@ -112,7 +112,7 @@ class RLGlue:
                 
                 coordinate_dict = {"up":[0.5,0.2],"down":[0.5,0.85],"left":[0.25,0.6],"right":[0.75,0.6]}
                 for action in ["up","down","left","right"]:
-                    text = str(round(self._agent.Q[row,col,action],2))
+                    text = str(round(self._agent.Q_p[row,col,action],2))
                     render = myfont.render(text, False, (0, 0, 0))
                     coordinate = x + coordinate_dict[action][0]*self.w, y+coordinate_dict[action][1]*self.w
                     self.surface.blit(render,coordinate)

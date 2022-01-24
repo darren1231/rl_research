@@ -45,7 +45,7 @@ def create_window(maze_w,maze_h,width):
 
     return surface
 # for i in [10,20]:
-run(5,5,5)
+run(0,8,8)
 # run(int(sys.argv[1]))
 
 

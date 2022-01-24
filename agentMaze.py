@@ -63,12 +63,18 @@ class Q_learning_agent(BaseAgent):
         X,Y=state      #S'
 
         maxAction=self._calMax(state)
+        minAction=self._calMin(state)
 
-        self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,maxAction)]-self.Q[(x,y,self.action)])
+        # self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,maxAction)]-self.Q[(x,y,self.action)])
+        self.Q_p[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,minAction)]-self.Q[(x,y,self.action)])
 
+        combine_q = self.Q_p[(X,Y,maxAction)]+self.Q[(X,Y,minAction)]
+        self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*combine_q-self.Q[(x,y,self.action)])
 
-        if self.n != 0:
-            self._planning(self.state,state,reward)
+        #new_q=(1-a)*old_q+a*(reward+b*max_qtable+penalty+b*min_qtable)-old_q_p;   also sucess
+
+        # if self.n != 0:
+        #     self._planning(self.state,state,reward)
 
         self.action,coord=self._chooseAction(state)
         self.state=state
@@ -114,6 +120,14 @@ class Q_learning_agent(BaseAgent):
         
         return np.random.choice(greedy_actions)
         # return greedy_actions
+    
+    def _calMin(self,state):
+
+        x,y=state
+        values=[self.Q[x,y,action] for action in self.actions]
+        greedy_actions=[action for action in self.actions if self.Q[(x,y,action)] == min(values)]
+        
+        return np.random.choice(greedy_actions)
 
     def _planning(self,previousState,currentState,reward):
 
