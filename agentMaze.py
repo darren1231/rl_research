@@ -71,7 +71,7 @@ class Q_learning_agent(BaseAgent):
         if Param.COMBINE_Q:
             self.Q_p[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,minAction)]-self.Q[(x,y,self.action)])
             combine_q = self.Q_p[(X,Y,maxAction)]+self.Q[(X,Y,minAction)]
-            self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*combine_q-self.Q[(x,y,self.action)])
+            self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*combine_q-self.Q[(x,y,self.action)])-self.Q_p[(x,y,self.action)]
         else:
             self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,maxAction)]-self.Q[(x,y,self.action)])
 

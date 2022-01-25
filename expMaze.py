@@ -36,7 +36,7 @@ def run(n,maze_h,maze_w,if_c):
     plt.plot(reward_list,label="{}".format(map_dict[if_c]))
     plt.legend()
     
-    plt.savefig('combineq_n_{}_{}_{}.png'.format(n,maze_h,maze_w))
+    plt.savefig('20220125_combineq_{}X{}.png'.format(maze_h,maze_w))
     # plt.show()
 
 def create_window(maze_w,maze_h,width):
@@ -53,9 +53,13 @@ def create_window(maze_w,maze_h,width):
 
 
 
-# for i in range(11,20):
-#   run(0,i,i)
-run(0,3,3,if_c=True)
+for i in range(5,10):
+    Param.COMBINE_Q=True
+    run(0,i,i,if_c=True)
+    Param.COMBINE_Q=False
+    run(0,i,i,if_c=False)
+    plt.clf()
+# run(0,3,3,if_c=True)
 # run(int(sys.argv[1]))
 
 
