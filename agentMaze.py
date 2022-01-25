@@ -128,8 +128,8 @@ class Q_learning_agent(BaseAgent):
 
     def _chooseAction(self,state):
 
-        action=np.random.choice(self.actions) if np.random.uniform(0,1) < self.epsilon else self._calMax(state)
-        # action = self._calMax(state)
+        # action=np.random.choice(self.actions) if np.random.uniform(0,1) < self.epsilon else self._calMax(state)
+        action = self._calMax(state)
         return action,self.returns[action]
 
     def _calMax(self,state):

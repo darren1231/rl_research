@@ -37,7 +37,7 @@ def run(n,maze_h,maze_w,if_c):
     plt.plot(reward_list,label="{}".format(map_dict[if_c]))
     plt.legend()
 
-    plt.savefig('afterdebug_20220125_{}X{}.png'.format(maze_h,maze_w))
+    plt.savefig('afterapplymax_20220125_{}X{}.png'.format(maze_h,maze_w))
     # plt.show()
 
 def create_window(maze_w,maze_h,width):
@@ -54,7 +54,7 @@ def create_window(maze_w,maze_h,width):
 
 
 
-for i in range(3,6):
+for i in range(5,10):
     random.seed(i)
     Param.COMBINE_Q=True
     run(0,i,i,True)
