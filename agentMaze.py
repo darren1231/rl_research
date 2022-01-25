@@ -8,6 +8,7 @@ import numpy as np
 import random
 import itertools
 from param import Param
+import copy
 
 class Q_learning_agent(BaseAgent):
 
@@ -69,9 +70,20 @@ class Q_learning_agent(BaseAgent):
         
         # global COMBINE_Q
         if Param.COMBINE_Q:
-            self.Q_p[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,minAction)]-self.Q[(x,y,self.action)])
-            combine_q = self.Q_p[(X,Y,maxAction)]+self.Q[(X,Y,minAction)]
-            self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*combine_q-self.Q[(x,y,self.action)])-self.Q_p[(x,y,self.action)]
+            old_q_p = float(copy.deepcopy(self.Q_p[(x,y,self.action)]))
+            next_min_q_p = float(copy.deepcopy(self.Q_p[(X,Y,minAction)]))
+            new_q_p = old_q_p+self.alpha*(reward+self.gamma*next_min_q_p-old_q_p)
+            self.Q_p[(x,y,self.action)]=new_q_p
+
+            old_q = self.Q[(x,y,self.action)]
+            next_max_q = self.Q[(X,Y,maxAction)]
+            new_q = (1-self.alpha)*old_q+self.alpha*(reward+self.gamma*next_max_q)
+            self.Q[(x,y,self.action)] = new_q
+
+            # new_q=(1-a)*old_q+a*(reward+b*max_qtable+penalty+b*min_qtable-old_q_p);
+            # self.Q_p[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,minAction)]-self.Q[(x,y,self.action)])
+            # combine_q = self.Q_p[(X,Y,maxAction)]+self.Q[(X,Y,minAction)]
+            # self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*combine_q-self.Q[(x,y,self.action)])-self.Q_p[(x,y,self.action)]
         else:
             self.Q[(x,y,self.action)]+=self.alpha*(reward+self.gamma*self.Q[(X,Y,maxAction)]-self.Q[(x,y,self.action)])
 
