@@ -70,6 +70,7 @@ class Q_learning_agent(BaseAgent):
         
         # global COMBINE_Q
         if Param.COMBINE_Q:
+            
             old_q_p = float(copy.deepcopy(self.Q_p[(x,y,self.action)]))
             next_min_q_p = float(copy.deepcopy(self.Q_p[(X,Y,minAction)]))
             new_q_p = old_q_p+self.alpha*(reward+self.gamma*next_min_q_p-old_q_p)
@@ -127,8 +128,8 @@ class Q_learning_agent(BaseAgent):
 
     def _chooseAction(self,state):
 
-        # action=np.random.choice(self.actions) if np.random.uniform(0,1) < self.epsilon else self._calMax(state)
-        action = self._calMax(state)
+        action=np.random.choice(self.actions) if np.random.uniform(0,1) < self.epsilon else self._calMax(state)
+        # action = self._calMax(state)
         return action,self.returns[action]
 
     def _calMax(self,state):

@@ -12,10 +12,11 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 from param import Param
+import random 
 
 def run(n,maze_h,maze_w,if_c):
 
-    width=200
+    width=50
     surface=create_window(maze_w,maze_h,width)
     maxEpisodes=100
     environment=Environment(maze_w,maze_h)
@@ -24,7 +25,7 @@ def run(n,maze_h,maze_w,if_c):
     
     rlglue=RLGlue(environment,agent,surface,width,time_sleep=0)
     rlglue.rl_init()
-    np.random.seed(0)
+    # np.random.seed(0)
 
     reward_list =[]
     for i in range(maxEpisodes):
@@ -35,8 +36,8 @@ def run(n,maze_h,maze_w,if_c):
     map_dict = {True:"use combine q",False:"normal q"}
     plt.plot(reward_list,label="{}".format(map_dict[if_c]))
     plt.legend()
-    
-    plt.savefig('ex3_20220125_combineq_{}X{}.png'.format(maze_h,maze_w))
+
+    plt.savefig('afterdebug_20220125_{}X{}.png'.format(maze_h,maze_w))
     # plt.show()
 
 def create_window(maze_w,maze_h,width):
@@ -53,14 +54,20 @@ def create_window(maze_w,maze_h,width):
 
 
 
-for i in range(3,10):
+for i in range(3,6):
+    random.seed(i)
     Param.COMBINE_Q=True
-    run(0,i,i,if_c=True)
+    run(0,i,i,True)
+
+    random.seed(i+1)
     Param.COMBINE_Q=False
-    run(0,i,i,if_c=False)
+    run(0,i,i,False)
     plt.clf()
 
-# run(0,3,3,if_c=True)
+# random.seed(3)
+# print (random.random())
+# Param.COMBINE_Q=True
+# run(0,5,5,False)
 # run(int(sys.argv[1]))
 
 

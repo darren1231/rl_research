@@ -214,7 +214,7 @@ class RLGlue:
 
         if terminal:
             self._num_episodes += 1
-            self._agent.agent_end(reward)
+            # self._agent.agent_end(reward)
             self._last_action = None
             self._agent.agent_step(reward, state)
         else:
