@@ -13,10 +13,11 @@ import sys
 import matplotlib.pyplot as plt
 from param import Param
 import random 
+import csv
 
 def run(n,maze_h,maze_w,if_c):
 
-    width=50
+    width=100
     surface=create_window(maze_w,maze_h,width)
     maxEpisodes=100
     environment=Environment(maze_w,maze_h)
@@ -26,18 +27,27 @@ def run(n,maze_h,maze_w,if_c):
     rlglue=RLGlue(environment,agent,surface,width,time_sleep=0)
     rlglue.rl_init()
     # np.random.seed(0)
+    map_dict = {True:"use combine q",False:"normal q"}
 
     reward_list =[]
-    for i in range(maxEpisodes):
-        rlglue.rl_episode()
-        print("{}".format(i)+"Steps took in this episode was %d" %(rlglue.num_ep_steps()))
-        reward_list.append(rlglue.num_ep_steps())
+    with open('output{}X{}_{}.csv'.format(maze_h,maze_w,map_dict[if_c]), 'w', newline='') as csvfile:
+    # 建立 CSV 檔寫入器
+        writer = csv.writer(csvfile,delimiter=' ')
 
-    map_dict = {True:"use combine q",False:"normal q"}
+        for i in range(maxEpisodes):
+            rlglue.rl_episode()
+            print("{}".format(i)+"Steps took in this episode was %d" %(rlglue.num_ep_steps()))
+            
+            steps= rlglue.num_ep_steps()
+            reward_list.append(steps)
+
+            writer.writerow([steps])
+
+    
     plt.plot(reward_list,label="{}".format(map_dict[if_c]))
     plt.legend()
 
-    plt.savefig('afterapplymax_20220125_{}X{}.png'.format(maze_h,maze_w))
+    # plt.savefig('afterapplymax_20220125_{}X{}.png'.format(maze_h,maze_w))
     # plt.show()
 
 def create_window(maze_w,maze_h,width):
@@ -52,9 +62,7 @@ def create_window(maze_w,maze_h,width):
     return surface
 
 
-
-
-for i in range(5,10):
+for i in [3,4]:
     random.seed(i)
     Param.COMBINE_Q=True
     run(0,i,i,True)
