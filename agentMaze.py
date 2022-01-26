@@ -73,12 +73,12 @@ class Q_learning_agent(BaseAgent):
             
             old_q_p = float(copy.deepcopy(self.Q_p[(x,y,self.action)]))
             next_min_q_p = float(copy.deepcopy(self.Q_p[(X,Y,minAction)]))
-            new_q_p = old_q_p+self.alpha*(reward+self.gamma*next_min_q_p-old_q_p)
+            new_q_p = old_q_p+Param.ALPHA_P*(reward+Param.GAMMA_P*next_min_q_p-old_q_p)
             self.Q_p[(x,y,self.action)]=new_q_p
 
             old_q = self.Q[(x,y,self.action)]
             next_max_q = self.Q[(X,Y,maxAction)]
-            new_q = (1-self.alpha)*old_q+self.alpha*(reward+self.gamma*next_max_q)
+            new_q = (1-Param.ALPHA)*old_q+Param.ALPHA*(reward+Param.GAMMA*next_max_q)
             self.Q[(x,y,self.action)] = new_q
 
             # new_q=(1-a)*old_q+a*(reward+b*max_qtable+penalty+b*min_qtable-old_q_p);
@@ -128,8 +128,8 @@ class Q_learning_agent(BaseAgent):
 
     def _chooseAction(self,state):
 
-        # action=np.random.choice(self.actions) if np.random.uniform(0,1) < self.epsilon else self._calMax(state)
-        action = self._calMax(state)
+        action=np.random.choice(self.actions) if np.random.uniform(0,1) < self.epsilon else self._calMax(state)
+        # action = self._calMax(state)
         return action,self.returns[action]
 
     def _calMax(self,state):

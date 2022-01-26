@@ -15,7 +15,15 @@ from param import Param
 import random 
 import csv
 
-def run(n,maze_h,maze_w,if_c):
+def run(n,maze_h,maze_w,Param):
+
+    ############################
+    map_dict = {True:"use combine q",False:"normal q"}
+    if_c = Param.COMBINE_Q
+    experiment_name = "ex2_{}_{}_{}_{}_{}".format(map_dict[if_c],\
+        str(Param.ALPHA_P),str(Param.GAMMA_P),\
+        str(Param.ALPHA),str(Param.GAMMA))
+    ############################
 
     width=100
     surface=create_window(maze_w,maze_h,width)
@@ -27,10 +35,10 @@ def run(n,maze_h,maze_w,if_c):
     rlglue=RLGlue(environment,agent,surface,width,time_sleep=0)
     rlglue.rl_init()
     # np.random.seed(0)
-    map_dict = {True:"use combine q",False:"normal q"}
+    
 
     reward_list =[]
-    with open('output{}X{}_{}.csv'.format(maze_h,maze_w,map_dict[if_c]), 'w', newline='') as csvfile:
+    with open('{}.csv'.format(experiment_name), 'w', newline='') as csvfile:
     # 建立 CSV 檔寫入器
         writer = csv.writer(csvfile,delimiter=' ')
 
@@ -47,7 +55,7 @@ def run(n,maze_h,maze_w,if_c):
     plt.plot(reward_list,label="{}".format(map_dict[if_c]))
     plt.legend()
 
-    # plt.savefig('afterapplymax_20220125_{}X{}.png'.format(maze_h,maze_w))
+    plt.savefig('{}.png'.format(experiment_name))
     # plt.show()
 
 def create_window(maze_w,maze_h,width):
@@ -61,16 +69,34 @@ def create_window(maze_w,maze_h,width):
 
     return surface
 
+loop_range = np.arange(0.1,1,0.1)
+ex_list = loop_range.tolist()
 
-for i in [3,4]:
-    random.seed(i)
-    Param.COMBINE_Q=True
-    run(0,i,i,True)
+for alpha_p in ex_list:
+    for gamma_p in ex_list:
+        for alpha in ex_list:
+            for gamma in ex_list:
+                Param.ALPHA_P=alpha_p
+                Param.GAMMA_P= gamma_p
+                Param.ALPHA= alpha
+                Param.GAMMA= gamma
 
-    random.seed(i+1)
-    Param.COMBINE_Q=False
-    run(0,i,i,False)
-    plt.clf()
+                
+                Param.COMBINE_Q=True
+                run(0,5,5,Param)
+                Param.COMBINE_Q=False
+                run(0,5,5,Param)
+                plt.clf()
+
+# for i in [3,4]:
+#     random.seed(i)
+#     Param.COMBINE_Q=True
+#     run(0,i,i,True)
+
+#     random.seed(i+1)
+#     Param.COMBINE_Q=False
+#     run(0,i,i,False)
+#     plt.clf()
 
 # random.seed(3)
 # print (random.random())
